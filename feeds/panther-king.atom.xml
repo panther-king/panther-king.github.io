@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>panther-king's blog</title><link href="/" rel="alternate"></link><link href="/feeds/panther-king.atom.xml" rel="self"></link><id>/</id><updated>2014-07-16T00:00:00+09:00</updated><entry><title>Pelicanでblogを書く</title><link href="/Pelican%E3%81%A7blog%E3%82%92%E6%9B%B8%E3%81%8F.html" rel="alternate"></link><updated>2014-07-16T00:00:00+09:00</updated><author><name>panther-king</name></author><id>tag:,2014-07-16:Pelicanでblogを書く.html</id><summary type="html">&lt;p&gt;自宅のwebサーバが壊れて以来随分とご無沙汰になっていたので、
+githubに乗っかって、さらにはブログジェネレータにも乗っかって、ブログを再び始めてみる。&lt;/p&gt;
+&lt;p&gt;日々学んだあれやこれやを、少しずつアウトプットしていけるといいなぁ...&lt;/p&gt;
+&lt;p&gt;python製ブログジェネレータ: &lt;a class="reference external" href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;&lt;/p&gt;
+</summary><category term="python"></category></entry></feed>
