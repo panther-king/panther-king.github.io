@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JavaScriptのゼロ除算</title>
+  <meta name="author" content="panther-king">
+
+
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="/favicon.png" rel="icon">
+  <link href="/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+  <script src="/theme/js/modernizr-2.0.js"></script>
+  <script src="/theme/js/ender.js"></script>
+  <script src="/theme/js/octopress.js" type="text/javascript"></script>
+
+  <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="/">panther-king's blog</a></h1>
+</hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+</ul>
+
+
+
+<ul class="main-navigation">
+    <li class="active">
+    <a href="/category/javascript.html">Javascript</a>
+    </li>
+    <li >
+    <a href="/category/python.html">Python</a>
+    </li>
+</ul></nav>
+  <div id="main">
+    <div id="content">
+<div>
+  <article class="hentry" role="article">
+<header>
+      <h1 class="entry-title">JavaScriptのゼロ除算</h1>
+      <p class="meta"><time datetime="2015-03-25T00:00:00+09:00" pubdate>水 25 3月 2015</time></p>
+</header>
+
+  <div class="entry-content"><p>世にある大抵のプログラミング言語は、数値をゼロで割るとエラーや例外が発生します。</p>
+<p>PHP</p>
+<div class="highlight"><pre><span class="x">echo 1 / 0;</span>
+<span class="x">//=&gt; PHP warning: Division by zero on line 1</span>
+</pre></div>
+<p>Python</p>
+<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span><span class="p">)</span>
+<span class="c">#=&gt; ZeroDivisionError: division by zero</span>
+</pre></div>
+<p>Ruby</p>
+<div class="highlight"><pre><span class="nb">puts</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span>
+<span class="c1">#=&gt; ZeroDivisionError: divided by 0</span>
+</pre></div>
+<p>Scala</p>
+<div class="highlight"><pre><span class="n">println</span><span class="o">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span><span class="o">)</span>
+<span class="c1">//=&gt; java.lang.ArithmeticException: / by zero</span>
+</pre></div>
+<p>ところが、JavaScriptだけはこの常識が当てはまりません。</p>
+<p>JavaScript</p>
+<div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span><span class="p">);</span>
+<span class="c1">//=&gt; Infinity</span>
+</pre></div>
+<p>エラー警告も例外も発生せず、 <strong>Infinity</strong> という値が返ってきました。
+この「Infinity」とは何なのでしょうか？</p>
+<p>MDNに説明がありました。</p>
+<p><a class="reference external" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Infinity">https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Infinity</a></p>
+<p>「無限大」を表現するグローバルなオブジェクトのようです。
+これだけならそういうものだと覚えてしまえば良いのですが、気を付けないといけない点があります。</p>
+<p>MDNの説明にもありますが、Infinityの初期値は <strong>正の無限大</strong> です。</p>
+<blockquote>
+Infinityの初期値は Number.POSITIVE_INFINITY です。</blockquote>
+<p>数学に疎い人間からすると、無限大は無限大というただ1つの値だとイメージしてしまいますが、
+2つの方向性があるということです。</p>
+<ul class="simple">
+<li>正の無限大(<a class="reference external" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Number/POSITIVE_INFINITY">Number.POSITIVE_INFINITY</a>)</li>
+<li>負の無限大(<a class="reference external" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Number/NEGATIVE_INFINITY">Number.NEGATIVE_INFINITY</a>)</li>
+</ul>
+<p>つまり、これらは同じ値ではないということです。</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="kc">Infinity</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="o">-</span><span class="kc">Infinity</span><span class="p">;</span>
+<span class="nx">a</span> <span class="o">===</span> <span class="nx">b</span><span class="p">;</span> <span class="c1">//=&gt; false</span>
+</pre></div>
+<p>これを理解できていなかったため、テストケースで予期せぬゼロ除算が発生していた箇所ではまってしまい、
+jasmineのソースを一生懸命追いかける、などと間違った方向性に時間を費やしてしまいました。。。</p>
+</div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">panther-king</span>
+  </span>
+<time datetime="2015-03-25T00:00:00+09:00" pubdate>水 25 3月 2015</time>  <span class="categories">
+    <a class="category" href="/tag/javascript.html">JavaScript</a>
+  </span>
+</p><div class="sharing">
+</div>    </footer>
+  </article>
+
+</div>
+<aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+      <li class="post">
+          <a href="/JavaScriptのゼロ除算.html">JavaScriptのゼロ除算</a>
+      </li>
+      <li class="post">
+          <a href="/Pelicanでblogを書く.html">Pelicanでblogを書く</a>
+      </li>
+    </ul>
+  </section>
+  <section>
+      
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+        <li><a href="/category/javascript.html">JavaScript</a></li>
+        <li><a href="/category/python.html">python</a></li>
+    </ul>
+  </section>
+ 
+
+  <section>
+  <h1>Tags</h1>
+    <a href="/tag/python.html">python</a>,    <a href="/tag/javascript.html">JavaScript</a>  </section>
+
+
+    <section>
+        <h1>Social</h1>
+        <ul>
+            <li><a href="https://twitter.com/panther_king" target="_blank">twitter</a></li>
+        </ul>
+    </section>
+    <section>
+        <h1>Blogroll</h1>
+        <ul>
+            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+        </ul>
+    </section>
+
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+    Copyright &copy;  2014-2015  - panther-king -
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+</body>
+</html>

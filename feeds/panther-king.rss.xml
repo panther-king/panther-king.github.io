@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>panther-king's blog</title><link>/</link><description></description><atom:link href="/feeds/panther-king.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 16 Jul 2014 00:00:00 +0900</lastBuildDate><item><title>Pelicanでblogを書く</title><link>/Pelican%E3%81%A7blog%E3%82%92%E6%9B%B8%E3%81%8F.html</link><description>&lt;p&gt;自宅のwebサーバが壊れて以来随分とご無沙汰になっていたので、
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>panther-king's blog</title><link>/</link><description></description><atom:link href="/feeds/panther-king.rss.xml" rel="self"></atom:link><lastBuildDate>Wed, 25 Mar 2015 00:00:00 +0900</lastBuildDate><item><title>JavaScriptのゼロ除算</title><link>/JavaScript%E3%81%AE%E3%82%BC%E3%83%AD%E9%99%A4%E7%AE%97.html</link><description>&lt;p&gt;世にある大抵のプログラミング言語は、数値をゼロで割るとエラーや例外が発生します。&lt;/p&gt;
+&lt;p&gt;PHP&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="x"&gt;echo 1 / 0;&lt;/span&gt;
+&lt;span class="x"&gt;//=&amp;gt; PHP warning: Division by zero on line 1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Python&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c"&gt;#=&amp;gt; ZeroDivisionError: division by zero&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ruby&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="c1"&gt;#=&amp;gt; ZeroDivisionError: divided by 0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Scala&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;//=&amp;gt; java.lang.ArithmeticException: / by zero&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;ところが、JavaScriptだけはこの常識が当てはまりません。&lt;/p&gt;
+&lt;p&gt;JavaScript&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;console&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//=&amp;gt; Infinity&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;エラー警告も例外も発生せず、 &lt;strong&gt;Infinity&lt;/strong&gt; という値が返ってきました。
+この「Infinity」とは何なのでしょうか？&lt;/p&gt;
+&lt;p&gt;MDNに説明がありました。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Infinity"&gt;https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Infinity&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;「無限大」を表現するグローバルなオブジェクトのようです。
+これだけならそういうものだと覚えてしまえば良いのですが、気を付けないといけない点があります。&lt;/p&gt;
+&lt;p&gt;MDNの説明にもありますが、Infinityの初期値は &lt;strong&gt;正の無限大&lt;/strong&gt; です。&lt;/p&gt;
+&lt;blockquote&gt;
+Infinityの初期値は Number.POSITIVE_INFINITY です。&lt;/blockquote&gt;
+&lt;p&gt;数学に疎い人間からすると、無限大は無限大というただ1つの値だとイメージしてしまいますが、
+2つの方向性があるということです。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;正の無限大(&lt;a class="reference external" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Number/POSITIVE_INFINITY"&gt;Number.POSITIVE_INFINITY&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;負の無限大(&lt;a class="reference external" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Number/NEGATIVE_INFINITY"&gt;Number.NEGATIVE_INFINITY&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;つまり、これらは同じ値ではないということです。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;Infinity&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="kc"&gt;Infinity&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nx"&gt;a&lt;/span&gt; &lt;span class="o"&gt;===&lt;/span&gt; &lt;span class="nx"&gt;b&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;//=&amp;gt; false&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;これを理解できていなかったため、テストケースで予期せぬゼロ除算が発生していた箇所ではまってしまい、
+jasmineのソースを一生懸命追いかける、などと間違った方向性に時間を費やしてしまいました。。。&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">panther-king</dc:creator><pubDate>Wed, 25 Mar 2015 00:00:00 +0900</pubDate><guid>tag:,2015-03-25:JavaScriptのゼロ除算.html</guid><category>JavaScript</category></item><item><title>Pelicanでblogを書く</title><link>/Pelican%E3%81%A7blog%E3%82%92%E6%9B%B8%E3%81%8F.html</link><description>&lt;p&gt;自宅のwebサーバが壊れて以来随分とご無沙汰になっていたので、
 githubに乗っかって、さらにはブログジェネレータにも乗っかって、ブログを再び始めてみる。&lt;/p&gt;
 &lt;p&gt;日々学んだあれやこれやを、少しずつアウトプットしていけるといいなぁ...&lt;/p&gt;
 &lt;p&gt;python製ブログジェネレータ: &lt;a class="reference external" href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;&lt;/p&gt;
